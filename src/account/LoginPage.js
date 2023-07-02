@@ -5,8 +5,7 @@ import AccountService from "./AccountService";
 import { useNavigate } from 'react-router-dom';
 
 const LoginPage = (props) => {
-    console.log(props);
-
+    
     const backgroundStyle = {
         style: {
             height: '100%',
@@ -92,10 +91,15 @@ function LoginButton() {
 }
 
 function RegisterAccountButton() {
-    const navigate = useNavigate();
+    let navigate = useNavigate();
     const registerAccountButtonProps = {
         onClick: (event) => {
-            navigate('/register');
+            let registerState = {
+                state: {
+                    ab: 123
+                }
+            }
+            navigate('/register', registerState);
         }
     }
 

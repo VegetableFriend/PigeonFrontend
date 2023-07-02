@@ -4,7 +4,7 @@ import PigeonMainPage from "./main/PigeonMainPage";
 import RegisterPage from "./account/RegisterPage";
 
 const App = () => {
-  const shouldRedirect = true;
+  const shouldRedirect = false;
   return (
     <Routes>
         <Route

@@ -1,5 +1,6 @@
 import { FolderOutlined, TwitterOutlined, UploadOutlined } from '@ant-design/icons';
 import { Layout, Menu, theme, List, message, Upload, Button } from 'antd';
+import Paragraph from 'antd/es/skeleton/Paragraph';
 import React from 'react';
 
 const { Header, Content, Sider } = Layout;
@@ -11,27 +12,6 @@ const fileNavigationItem = {
 };
 
 const leftNavigationItems = [fileNavigationItem];
-
-const data = [
-  {
-    title: 'Ant Design Title 1',
-  },
-  {
-    title: 'Ant Design Title 2',
-  },
-  {
-    title: 'Ant Design Title 3',
-  },
-  {
-    title: 'Ant Design Title 4',
-  },
-  {
-    title: 'Ant Design Title 4',
-  },
-  {
-    title: 'Ant Design Title 4',
-  },
-];
 
 const props = {
   name: 'file',
@@ -59,100 +39,114 @@ const props = {
 
 
 const PigeonMainPage = () => {
-  const {
-    token: { colorBgContainer },
-  } = theme.useToken();
-
   return (
     <Layout style={{
       height: '100%',
     }}>
-      <Header
-        style={{
-          display: 'flex',
-          alignItems: 'center',
-          height: 64
-        }}
-      >
-        <Logo></Logo>
-      </Header>
-      <Content
-        style={{
-          padding: '0 50px',
-        }}
-      >
-        <Layout
-          style={{
-            height: '100%',
-            padding: '24px 0',
-            background: colorBgContainer,
-          }}
-        >
-          <Sider
-            style={{
-              background: colorBgContainer,
-            }}
-            width={200}
-          >
-            <Menu
-              mode="inline"
-              style={{
-                height: '100%',
-              }}
-              items={leftNavigationItems}
-            />
-          </Sider>
-          <Content
-            style={{
-              padding: '0 24px',
-            }}
-          >
-  {/* <List
-    itemLayout="horizontal"
-    dataSource={data}
-    renderItem={(item, index) => (
-      <List.Item>
-        <List.Item.Meta
-          title={<a href="https://ant.design">{item.title}</a>}
-          description="Ant Design, a design language for background applications, is refined by Ant UED Team"
-        />
-      </List.Item>
-    )}
-  /> */}  
-  
-  <Upload {...props}>
-    <Button icon={<UploadOutlined />}>Click to Upload</Button>
-  </Upload>
-          </Content>
-        </Layout>
-      </Content>
+      <PigeonCommonHeader></PigeonCommonHeader>
+      <PigeonMainContent></PigeonMainContent>
     </Layout>
   );
 };
 
-function Logo() {
+/// Header
+function PigeonCommonHeader() {
+  const pigeonHeaderStyle = {
+    style: {
+      alignItems: 'center',
+    }
+  };
+
   return (
-    <Layout style={{
-      background: 'rgba(0, 21, 41, 1)',
+    <Header {...pigeonHeaderStyle}>
+      <PigeonIcon></PigeonIcon>
+      <PigeonLabel></PigeonLabel>
+    </Header>
+  );
+}
+
+function PigeonIcon() {
+  return (
+    <TwitterOutlined style={{
+      display: 'block',
+      textAlign: 'left',
+      color: 'white'
+    }}></TwitterOutlined>
+  );
+}
+
+function PigeonLabel() {
+  return (
+    <p style={{
+      background: 'rgba(0, 0, 0, 0)',
+      height: 32,
+      lineHeight: '32px',
+      color: 'white',
     }}>
-      <Layout style={{
-        background: 'rgba(0, 0, 0, 0)',
-        height: 14,
-      }}>
-        <TwitterOutlined style={{
-          textAlign: 'left',
-          color: 'white'
-        }}></TwitterOutlined>
-      </Layout>
-      <Layout style={{
-        background: 'rgba(0, 0, 0, 0)',
-        height: 32,
-        lineHeight: '32px',
-        color: 'white',
-      }}>
-        Pigeon
-      </Layout>
+      Pigeon
+    </p>
+  );
+}
+
+/// Content
+function PigeonMainContent() {
+  return (
+    <Layout>
+       <PigeonMainSider></PigeonMainSider>
+       <PigeonFileList></PigeonFileList>
     </Layout>
+  );
+}
+
+function PigeonMainSider() {
+  return (
+    <Sider
+    style={{
+      background: 'white',
+    }}
+    width={200}
+  >
+    <Menu
+      style={{
+        height: '100%',
+      }}
+      items={leftNavigationItems}
+    />
+  </Sider>
+  );
+}
+
+function PigeonFileList() {
+  const pigeonFileListProps = {
+    style: {
+      width: '100%',
+    },
+    itemLayout: "horizontal",
+    // dataSource: {data},
+    renderItem: {PigeonFileListItem},
+  };
+
+  return (
+    <List></List>
+  );
+}
+
+function PigeonFileListItem(item, index) {
+  return (
+    <List.Item>
+      <List.Item.Meta
+        title={<a href="https://ant.design">{item.title}</a>}
+        description="Ant Design, a design language for background applications, is refined by Ant UED Team"
+      />
+    </List.Item>
+  );
+}
+
+function PigeonUploadButton() {
+  return (
+    <Upload {...props}>
+      <Button icon={<UploadOutlined />}>上传文件</Button>
+    </Upload> 
   );
 }
 

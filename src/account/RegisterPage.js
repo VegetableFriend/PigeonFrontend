@@ -2,8 +2,12 @@ import { LockOutlined, TwitterOutlined, UserOutlined } from "@ant-design/icons";
 import { Input, Layout, Button } from "antd";
 import Paragraph from "antd/es/typography/Paragraph";
 import AccountService from "./AccountService";
+import { useLocation } from "react-router-dom";
 
 const RegisterPage = () => {
+    const location = useLocation();
+    console.log(location);
+
     const backgroundStyle = {
         style: {
             height: '100%',
