@@ -1,9 +1,9 @@
 import { FolderOutlined, TwitterOutlined, UploadOutlined } from '@ant-design/icons';
-import { Layout, Menu, theme, List, message, Upload, Button } from 'antd';
-import Paragraph from 'antd/es/skeleton/Paragraph';
+import { Layout, Menu, List, message, Upload, Button } from 'antd';
+import axios, { Axios } from 'axios';
 import React from 'react';
 
-const { Header, Content, Sider } = Layout;
+const { Header, Sider } = Layout;
 
 const fileNavigationItem = {
   key: 'fileNavigationItem',
@@ -20,23 +20,39 @@ const props = {
     authorization: 'authorization-text',
   },
   onChange(info) {
-    if (info.file.status !== 'uploading') {
-      console.log(info.file, info.fileList);
-    }
-    if (info.file.status === 'done') {
-      message.success(`${info.file.name} file uploaded successfully`);
-    } else if (info.file.status === 'error') {
-      message.error(`${info.file.name} file upload failed.`);
-    }
+    // if (info.file.status !== 'uploading') {
+    //   console.log(info.file, info.fileList);
+    // }
+    // if (info.file.status === 'done') {
+    //   message.success(`${info.file.name} file uploaded successfully`);
+    // } else if (info.file.status === 'error') {
+    //   message.error(`${info.file.name} file upload failed.`);
+    // }
   },
   beforeUpload: (file) => {
     let blob = file.slice(0, 100);
+
+    let formData = new FormData();
+    formData.append('file', blob);
+
+    axios({
+      url: 'http://localhost:8999/upload',
+      method: 'post',
+      headers: {
+        'Content-Type': 'aaa'
+      },
+      data: formData
+    }).then(resp);
 
     console.log(blob);
     return false;
   }
 };
 
+
+function resp(response) {
+    console.log(response);
+}
 
 const PigeonMainPage = () => {
   return (
@@ -66,25 +82,31 @@ function PigeonCommonHeader() {
 }
 
 function PigeonIcon() {
-  return (
-    <TwitterOutlined style={{
+  const pigeonIconStyle = {
+    style: {
       display: 'block',
       textAlign: 'left',
       color: 'white'
-    }}></TwitterOutlined>
+    }
+  }
+
+  return (
+    <TwitterOutlined {...pigeonIconStyle}></TwitterOutlined>
   );
 }
 
 function PigeonLabel() {
-  return (
-    <p style={{
+  const pigeonLabelStyle = {
+    style: {
       background: 'rgba(0, 0, 0, 0)',
       height: 32,
       lineHeight: '32px',
       color: 'white',
-    }}>
-      Pigeon
-    </p>
+    }
+  }
+
+  return (
+    <p {...pigeonLabelStyle}>Pigeon</p>
   );
 }
 
@@ -93,26 +115,31 @@ function PigeonMainContent() {
   return (
     <Layout>
        <PigeonMainSider></PigeonMainSider>
-       <PigeonFileList></PigeonFileList>
+       {/* <PigeonFileList></PigeonFileList> */}
+       <PigeonUploadButton></PigeonUploadButton>
     </Layout>
   );
 }
 
 function PigeonMainSider() {
-  return (
-    <Sider
-    style={{
+  const siderStyle = {
+    style: {
       background: 'white',
-    }}
-    width={200}
-  >
-    <Menu
-      style={{
-        height: '100%',
-      }}
-      items={leftNavigationItems}
-    />
-  </Sider>
+    },
+    width: 200
+  }
+
+  const menuProps = {
+    style: {
+      height: '100%',
+    },
+    items: leftNavigationItems
+  }
+
+  return (
+    <Sider {...siderStyle}>
+      <Menu {...menuProps}></Menu>
+    </Sider>
   );
 }
 
